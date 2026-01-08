@@ -28,7 +28,7 @@ import { AppService } from './app.service';
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true, // Set to false in production
         ssl: {
-          rejectUnauthorized: true,
+          rejectUnauthorized: false,
         },
       }),
       inject: [ConfigService],
