@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '../stores/useGameStore';
 import { Button } from '../components/Button';
-import { UserPlus } from 'lucide-react';
+import { UserPlus, Eye, EyeOff } from 'lucide-react';
 
 export const SignupPage = () => {
     const navigate = useNavigate();
     const signup = useGameStore((state) => state.signup);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleSignup = async () => {
         if (!username || !password) {
@@ -16,7 +17,8 @@ export const SignupPage = () => {
             return;
         }
         await signup(username, password);
-        navigate('/');
+        // User state is set by signup action, so we can proceed directly to profile setup
+        navigate('/profile-setup');
     };
 
     return (
@@ -37,13 +39,22 @@ export const SignupPage = () => {
                     </div>
                     <div>
                         <label className="block font-bold mb-1">PASSWORD</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full border-2 border-black p-2 font-bold focus:outline-none focus:bg-yellow-100"
-                            placeholder="Enter password"
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full border-2 border-black p-2 font-bold focus:outline-none focus:bg-yellow-100 pr-10"
+                                placeholder="Enter password"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none bg-transparent border-none p-1"
+                            >
+                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
