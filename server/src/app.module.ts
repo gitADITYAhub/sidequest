@@ -27,6 +27,9 @@ import { AppService } from './app.service';
         database: configService.get<string>('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true, // Set to false in production
+        ssl: {
+          rejectUnauthorized: true,
+        },
       }),
       inject: [ConfigService],
     }),
