@@ -13,6 +13,13 @@ import { useGameStore } from './stores/useGameStore';
 
 function App() {
   const user = useGameStore((state) => state.user);
+  const fetchUser = useGameStore((state) => state.fetchUser);
+
+  React.useEffect(() => {
+    if (user) {
+      fetchUser();
+    }
+  }, []);
 
   return (
     <Routes>

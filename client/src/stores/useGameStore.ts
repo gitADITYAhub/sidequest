@@ -47,6 +47,7 @@ interface GameState {
     watchAd: () => Promise<void>;
     fetchShopItems: () => Promise<ShopItem[]>;
     buyItem: (itemId: number) => Promise<void>;
+    fetchUser: () => Promise<void>;
 }
 
 export const useGameStore = create<GameState>()(
@@ -164,8 +165,20 @@ export const useGameStore = create<GameState>()(
                 try {
                     const response = await api.post(`/shop/buy/${user.id}/${itemId}`);
                     set({ user: response.data });
+                    alert('Item purchased!');
                 } catch (error) {
                     console.error('Buy item failed', error);
+                    alert('Failed to buy item (maybe insufficient funds?)');
+                }
+            },
+            fetchUser: async () => {
+                const { user } = get();
+                if (!user) return;
+                try {
+                    const response = await api.get(`/users/${user.id}`);
+                    set({ user: response.data });
+                } catch (error) {
+                    console.error('Fetch user failed', error);
                 }
             },
         }),

@@ -26,6 +26,7 @@ export const QuestPage = () => {
     const rollQuest = useGameStore((state) => state.rollQuest);
     const completeQuest = useGameStore((state) => state.completeQuest);
     const watchAd = useGameStore((state) => state.watchAd);
+    const fetchUser = useGameStore((state) => state.fetchUser);
     const [proofVideoUrl, setProofVideoUrl] = useState<string | null>(null);
     const [randomFact, setRandomFact] = useState('');
 
@@ -47,6 +48,7 @@ export const QuestPage = () => {
     const handleComplete = async () => {
         if (proofVideoUrl) {
             await completeQuest(proofVideoUrl);
+            await fetchUser(); // Refresh user data to show new XP/Gold
             setProofVideoUrl(null);
         }
     };
